@@ -1,0 +1,98 @@
+spring:
+  application:
+    hostname: 'firmoffer'
+  profiles:
+    active: test #激活dev
+  proxy:
+    enable: true
+    url: 127.0.0.1
+    port: 1080
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    #url: jdbc:mysql://47.98.229.120:3306/firmoffer?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true
+    #username: kaifa_A
+    #password: 2cyNKp%DHYhnGQfu
+    #url: jdbc:mysql://106.46.169.103:3306/firmoffer?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true
+    #username: root
+    #password: 123456
+    url: jdbc:mysql://47.99.145.184:3306/firmoffer-test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true
+    username: kaifa_A
+    password: 2cyNKp%DHYhnGQfu
+    hikari:
+      connection-timeout: 30000
+      max-lifetime: 60000
+  output:
+    ansi:
+      enabled: DETECT
+
+  kafka:
+    #    bootstrap-servers: 13.115.172.56:9092,54.199.145.213:9092,13.231.107.34:9092 #13.231.104.122:9092 #36.255.220.179:9092
+    #    bootstrap-servers: 192.168.0.21:9092
+    bootstrap-servers: 106.46.169.103:9092
+    #bootstrap-servers: 47.99.115.49:9092
+    consumer:
+      group-id: 'lightning-prod-11122'
+      auto-offset-reset: latest
+    producer:
+      compression-type: gzip
+      acks: 1
+      retries: 3
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+
+
+bitfinex:
+  apiKey: Wo39YPH2r4SiJjSBvo5TLWjsrOwM5kGgJ6SaoBU1kfo
+  apiKeySecret: q81WejogTmv7xFA8m0D0iqyKnFOC1TnhLQxeNX8Q0nL
+
+huobi:
+  apiKey: 21a376e4-732ad75a-baf6760a-54b43
+  apiKeySecret: fb76eb17-311548d8-19bb95ee-cd72f
+
+binance:
+  apiKey: DXzgQdMz9aX41VxmAL3NqHnTMIBqi2TIUFEfvX94AjDDOPEY21aOtowQdJIxm04s
+  apiKeySecret: qefrpQbd86w3XYm74mVRxGBAK8DYZFg2i2g4gMClLpaCVy7kjqpxGkpQm8Cm3uEd
+
+logging:
+  level:
+    com.ailu.firmoffer: info
+    com.ailu.firmoffer.task.*: info
+    com.ailu.firmoffer.exchange.signature.*: error
+    com.ailu.firmoffer.dao.mapper: info
+
+#pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  returnPageInfo: check
+
+calc:
+  url-prefix: "http://exchange.bicoin.com.cn:1901"
+  #  url-prefix: "http://texchange.bicoin.com.cn"
+  get-all-market-by-exchange: "/data/getAllMarketByExchange"
+
+server:
+  port: 1911
+
+user_ids: "439,1044,440,441,442,443,444,445"
+#user_ids: "64,65,66,67,68,69,70,71,72,73,74"
+
+kafka:
+  groupid: '${spring.application.hostname}-${spring.profiles.active}-1111'
+  firmOffer_push:
+    topic: firmOffer-push-${spring.profiles.active}
+  firm_offer_web:
+    meta: firm-offer-meta-${spring.profiles.active}
+    history: firm-offer-history-${spring.profiles.active}
+  okex: firm-simpleuser-data-test
+  huobi: firm-huobi-data-${spring.profiles.active}
+  binance: firm-binance-data-${spring.profiles.active}
+  bitmex: firm-bitmex-data-${spring.profiles.active}
+  bitfinex: firm-bitfinex-data-${spring.profiles.active}
+  bybit: firm-bybit-data-test #${spring.profiles.active}
+  ledger: firm-offer-ledger2-${spring.profiles.active}
+
+task:
+  save-today-all-income: '0 0/60 * * * *'
